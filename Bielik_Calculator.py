@@ -135,7 +135,7 @@ def calculate():
         x=value.count('(')
         y=value.count(')')
         if x!=y:
-            messagebox.showinfo("Помилка!", "Кількість відкриваючих та закриваючих дужок не є рівною")
+            messagebox.showinfo("Error!", "The number of brackets is different!")
 
     symb = '[()/*+-]'
     trigon = ['sin', 'cos', 'tg', 'ctg','arcsin','arccos','arctg','arcctg']
@@ -308,7 +308,7 @@ def calculate():
                         result=intenger(math.sqrt(int(eval_by_bielik(value[indx+2:n]))).__round__(3))
                         value = value[:N] + str(intenger(result)) + value[n + 1:]
                     except:
-                        messagebox.showinfo('Ошибка!', "Ви намагаєтесь добути корінь з від'ємного числа")
+                        messagebox.showinfo('Error!', "Square root of a negative number!")
                 elif oper[i] == '!':
                     indx = value.index('!')
                     n = indx
@@ -341,7 +341,7 @@ def calculate():
                         result=math.log(int(value_oper[j+1]),int(value_oper[j+2]))
                         value= value[:indx] + str(intenger(result)) + value[n+1:]
                     except ZeroDivisionError:
-                        messagebox.showinfo('Ошибка!', "Основа логарифму не можу дорівнювати 1")
+                        messagebox.showinfo('Error!', "Base is 1!")
 
             value = intenger(value)
 
@@ -356,7 +356,7 @@ def calculate():
     try:
         value = eval_by_bielik(value)
     except ZeroDivisionError:
-        messagebox.showinfo("Помилка!", "На нуль ділити не можна!")
+        messagebox.showinfo("Error!", "Division by zero!")
         calc.insert(0, 0)
 
 
@@ -436,7 +436,7 @@ def make_trigonometry_button(function):
     """Создаем кнопку с тригонометрической функцией"""
     TRIG = tk.Button(text=function, bd=5, font=('Times New Roman', 13), fg='green',
                      command=lambda: add_trigonometry(function))
-    TRIG_ttp=CreateToolTip(TRIG,"Операція(значення)")
+    TRIG_ttp=CreateToolTip(TRIG,"Operaion(value)")
     return TRIG
 
 def memory(task):
@@ -481,19 +481,19 @@ def statisticcalc(statistic):
     calc.delete(0, tk.END)
     if value [0]=='0' and len(value)==1:
         value=value[1:]
-    if statistic=="Сума":
+    if statistic=="Sum":
         calc.insert(0, value + 'sum(')
 
-    elif statistic=='Середнє арифметичне':
+    elif statistic=='Average':
         calc.insert(0, value + 'A(')
-    elif statistic=='Середньоквадратичне відхилення':
+    elif statistic=='Standart deviation':
         calc.insert(0, value + 'SE(')
 
 def make_static_button(statistic):
     """Эта функция создает статистические кнопки и коментарий к ним"""
     STATISTIC=tk.Button(text=statistic, bd=5, font=('Times New Roman', 13), fg="blue",
                      command=lambda: statisticcalc(statistic))
-    STATISTIC_ttp=CreateToolTip(STATISTIC,"Функція(значення1,значення2,значення3)")
+    STATISTIC_ttp=CreateToolTip(STATISTIC,"Function(value1,value2,value3)")
     return STATISTIC
 
 def constant_button():
@@ -523,7 +523,7 @@ def constant_button():
         calc.delete(0, tk.END)
         calc.insert(0, value + constants[variable.get()])
 
-    button = Button(master, text="Додати", command= ok)
+    button = Button(master, text="Add", command= ok)
     button.pack()
 
     master.grid_columnconfigure(0, minsize=60)
@@ -538,9 +538,9 @@ def add_constant_button():
     """Эта функция создает новое окно для создания новой константы """
     constant = Tk()
     constant.geometry(f'300x100+100+200')
-    constant.title('Створити нову константу')
+    constant.title('Create new constant')
     constant_name = tk.Entry(constant, justify=tk.LEFT, font=('Times New Roman', 15), width=15)  # строка ввода
-    constant_name.insert(0, 'Константа:значення')
+    constant_name.insert(0, 'Constant:value')
     constant_name.grid(row=0, column=0, columnspan=3, stick='we', padx=5)
 
     def add_button():
@@ -551,7 +551,7 @@ def add_constant_button():
         fhandle.close()
 
 
-    button = Button(constant, text="Додати константу", font=('Times New Roman', 13), fg="black",
+    button = Button(constant, text="Add constant", font=('Times New Roman', 13), fg="black",
                     command=lambda: add_button()).grid(row=1, column=(0), columnspan=2, stick='wens', padx=5, pady=5)
 
     constant.grid_columnconfigure(0, minsize=60)
@@ -567,15 +567,15 @@ def history_button(name):
     """Выполняется проверка активирована ли история, если да,
      то она отключается и наоборот"""
     global hist
-    if name=='Збереження розрахунків':
+    if name=='Save calculations':
         if hist==0:
             hist=1
-            tk.Button(text='Збереження розрахунків', bd=5, font=('Times New Roman', 13), fg="green",
-                      command=lambda: history_button('Збереження розрахунків')).grid(row=1, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
+            tk.Button(text='Save calculationsв', bd=5, font=('Times New Roman', 13), fg="green",
+                      command=lambda: history_button('Save calculations')).grid(row=1, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
         elif hist==1:
             hist=0
-            tk.Button(text='Збереження розрахунків', bd=5, font=('Times New Roman', 13), fg="black",
-                      command=lambda: history_button('Збереження розрахунків')).grid(row=1, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
+            tk.Button(text='Save calculations', bd=5, font=('Times New Roman', 13), fg="black",
+                      command=lambda: history_button('Save calculations')).grid(row=1, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
     else:
         history = open('history.txt', 'w')
         history.write('')
@@ -586,9 +586,9 @@ def file_button():
     выражения из этого файла"""
     file = Tk()
     file.geometry(f'300x100+100+200')
-    file.title('Зчитати данні з файлу')
+    file.title('Read data')
     file_name = tk.Entry(file, justify=tk.LEFT, font=('Times New Roman', 15), width=15)  # строка ввода
-    file_name.insert(0, 'Ім`я файлу.txt')
+    file_name.insert(0, 'File_name.txt')
     file_name.grid(row=0, column=0, columnspan=3, stick='we', padx=5)
     def read_button():
         name = file_name.get()
@@ -597,7 +597,7 @@ def file_button():
         calc.delete(0, tk.END)
         calc.insert(0, line)
 
-    button = Button(file, text="Зчитати",font=('Times New Roman', 13), fg="black",
+    button = Button(file, text="Read",font=('Times New Roman', 13), fg="black",
                     command=lambda : read_button()).grid(row=1, column=(0), columnspan=2, stick='wens', padx=5, pady=5)
 
 
@@ -660,23 +660,23 @@ make_digit_button(',').grid(row=5, column=4, stick='wens', padx=5, pady=5)
 PERCENT=tk.Button(text='%', bd=5, font=('Times New Roman', 13),
                      command=lambda: add_digit('%'))
 PERCENT.grid(row=2, column=5, stick='wens', padx=5, pady=5)
-PERCENT_ttp=CreateToolTip(PERCENT,'число+-*/(відсоток)%')
+PERCENT_ttp=CreateToolTip(PERCENT,'number+-*/(percent)%')
 SQRT=tk.Button(text='sqrt', bd=5, font=('Times New Roman', 13),
                      command=lambda: add_digit('sqrt'))
 SQRT.grid(row=3, column=5, stick='wens', padx=5, pady=5)
-SQRT_ttp=CreateToolTip(SQRT, "sqrt(значення)")
+SQRT_ttp=CreateToolTip(SQRT, "sqrt(value)")
 FACTORIAL=tk.Button(text='!', bd=5, font=('Times New Roman', 13),
                      command=lambda: add_digit('!'))
 FACTORIAL.grid(row=4, column=5, stick='wens', padx=5, pady=5)
-FACTORIAL_ttp=CreateToolTip(FACTORIAL,'(значення)!')
+FACTORIAL_ttp=CreateToolTip(FACTORIAL,'(value)!')
 LOGARIFM=tk.Button(text='log', bd=5, font=('Times New Roman', 13),
                      command=lambda: add_digit('log'))
 LOGARIFM.grid(row=5, column=5, stick='wens', padx=5, pady=5)
-LOGARIFM_ttp=CreateToolTip(LOGARIFM,"log(значення,основа)")
+LOGARIFM_ttp=CreateToolTip(LOGARIFM,"log(value,base)")
 EXPONENT=tk.Button(text='^', bd=5, font=('Times New Roman', 13),
                      command=lambda: add_digit('^'))
 EXPONENT.grid(row=3, column=4, stick='wens', padx=5, pady=5)
-EXPONENT_ttp=CreateToolTip(EXPONENT,'(значення)^(ступінь)')
+EXPONENT_ttp=CreateToolTip(EXPONENT,'(value)^(power)')
 
 #операции
 make_operation_button('+').grid(row=2, column=3, stick='wens', padx=5, pady=5)
@@ -697,9 +697,9 @@ make_trigonometry_button('arctg').grid(row=4, column=(7), stick='wens', padx=5, 
 make_trigonometry_button('arcctg').grid(row=5, column=(7), stick='wens', padx=5, pady=5)
 
 #cтатистические расчеты
-make_static_button('Сума').grid(row=6, column=(4), stick='wens', padx=5, pady=5)
-make_static_button('Середнє арифметичне').grid(row=6, column=(0), columnspan=4, stick='wens', padx=5, pady=5)
-make_static_button('Середньоквадратичне відхилення').grid(row=7, column=(0),columnspan=4, stick='wens', padx=5, pady=5)
+make_static_button('Sum').grid(row=6, column=(4), stick='wens', padx=5, pady=5)
+make_static_button('Average').grid(row=6, column=(0), columnspan=4, stick='wens', padx=5, pady=5)
+make_static_button('Standart deviation').grid(row=7, column=(0),columnspan=4, stick='wens', padx=5, pady=5)
 
 
 #кнопка "равно"
@@ -716,25 +716,25 @@ make_memory_button('MC').grid(row=1, column=(2), stick='wens', padx=5, pady=5)
 make_memory_button('M+').grid(row=1, column=(3), stick='wens', padx=5, pady=5)
 make_memory_button('M-').grid(row=1, column=(4), stick='wens', padx=5, pady=5)
 
-tk.Button(text='Збереження розрахунків', bd=5, font=('Times New Roman', 13), fg="black",
-          command=lambda: history_button('Збереження розрахунків')).grid(row=1, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
-tk.Button(text='Очистити історію розрахунків', bd=5, font=('Times New Roman', 13), fg="black",
-          command=lambda: history_button('Очистити історію розрахунків')).grid(row=6, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
+tk.Button(text='Save calculations', bd=5, font=('Times New Roman', 13), fg="black",
+          command=lambda: history_button('Save calculations')).grid(row=1, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
+tk.Button(text='Clean the calculation history', bd=5, font=('Times New Roman', 13), fg="black",
+          command=lambda: history_button('Clean the calculation history')).grid(row=6, column=(7), columnspan=2, stick='wens', padx=5, pady=5)
 
 
-tk.Button(text='+Файл', bd=5, font=('Times New Roman', 13), fg="black",
+tk.Button(text='+File', bd=5, font=('Times New Roman', 13), fg="black",
           command=lambda: file_button()).grid(row=2, column=(8),columnspan=1, stick='wens', padx=5, pady=5)
 
 #кнопки для работы с константами
-CONSTANTS=tk.Button(text='Константи', bd=5, font=('Times New Roman', 13),fg="red",
+CONSTANTS=tk.Button(text='Constants', bd=5, font=('Times New Roman', 13),fg="red",
                      command=lambda: constant_button())
 CONSTANTS.grid(row=6, column=(5),columnspan=2, stick='wens', padx=5, pady=5)
-CONSTANTS_ttp=CreateToolTip(CONSTANTS,'Вставити константу')
+CONSTANTS_ttp=CreateToolTip(CONSTANTS,'Paste constant')
 
-ADDCONSTANTS=tk.Button(text='+константа', bd=5, font=('Times New Roman', 13), fg="red",
+ADDCONSTANTS=tk.Button(text='Add new const', bd=5, font=('Times New Roman', 13), fg="red",
                      command=lambda: add_constant_button())
 ADDCONSTANTS.grid(row=7, column=(5),columnspan=2, stick='wens', padx=5, pady=5)
-ADDCONSTANTS_ttp=CreateToolTip(ADDCONSTANTS,'Додати константу')
+ADDCONSTANTS_ttp=CreateToolTip(ADDCONSTANTS,'Add constant')
 
 #размер в ширину
 win.grid_columnconfigure(0, minsize=60)
